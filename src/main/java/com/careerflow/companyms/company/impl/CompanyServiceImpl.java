@@ -10,7 +10,6 @@ import com.careerflow.companyms.company.CompanyService;
 import com.careerflow.companyms.company.clients.ReviewClient;
 import com.careerflow.companyms.company.dto.ReviewMessage;
 
-import jakarta.ws.rs.NotFoundException;
 
 
 @Service
