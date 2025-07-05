@@ -7,16 +7,21 @@ import org.springframework.stereotype.Service;
 import com.careerflow.companyms.company.Company;
 import com.careerflow.companyms.company.CompanyRepository;
 import com.careerflow.companyms.company.CompanyService;
+import com.careerflow.companyms.company.clients.ReviewClient;
 import com.careerflow.companyms.company.dto.ReviewMessage;
+
+import jakarta.ws.rs.NotFoundException;
 
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
     private CompanyRepository companyRepository;
+    private ReviewClient reviewClient;
 
-    public CompanyServiceImpl(CompanyRepository companyRepository) {
+    public CompanyServiceImpl(CompanyRepository companyRepository , ReviewClient reviewClient) {
         this.companyRepository = companyRepository;
+        this.reviewClient = reviewClient;
     }
 
     @Override
@@ -59,6 +64,14 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void updateCompanyRating(ReviewMessage reviewMessage) {
         System.out.println(reviewMessage.getDescription());
+        companyRepository.findById(reviewMessage.getCompanyId()).ifPresentOrElse(company -> {
+            Double averageRating = reviewClient.getAverageRatingForCompany(reviewMessage.getCompanyId());
+            company.setRating(averageRating);
+            companyRepository.save(company);
+        }, () -> {
+            // Log a warning instead of throwing an exception
+            System.err.println("Warning: Company not found with id: " + reviewMessage.getCompanyId());
+        });
     }
 
 }
