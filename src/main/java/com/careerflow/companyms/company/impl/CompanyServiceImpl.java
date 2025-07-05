@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.careerflow.companyms.company.Company;
 import com.careerflow.companyms.company.CompanyRepository;
 import com.careerflow.companyms.company.CompanyService;
+import com.careerflow.companyms.company.dto.ReviewMessage;
 
 
 @Service
@@ -53,6 +54,11 @@ public class CompanyServiceImpl implements CompanyService {
     public Company getCompanyById(Long id) {
         return companyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Company not found with id: " + id));
+    }
+
+    @Override
+    public void updateCompanyRating(ReviewMessage reviewMessage) {
+        
     }
 
 }
