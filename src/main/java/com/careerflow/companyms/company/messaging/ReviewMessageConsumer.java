@@ -1,10 +1,12 @@
 package com.careerflow.companyms.company.messaging;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
 
 import com.careerflow.companyms.company.CompanyService;
 import com.careerflow.companyms.company.dto.ReviewMessage;
 
+@Service
 public class ReviewMessageConsumer {
 
     private final CompanyService companyService;
